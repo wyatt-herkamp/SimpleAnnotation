@@ -6,7 +6,7 @@
 
   <groupId>me.kingtux</groupId>
   <artifactId>SimpleAnnotation</artifactId>
-  <version>1.0</version>
+  <version>1.1</version>
   <packaging>jar</packaging>
 
   <name>SimpleAnnotation</name>
@@ -113,19 +113,4 @@
       </resource>
     </resources>
   </build>
-  <repositories>
-    <repository>
-      <id>jitpack.io</id>
-      <url>https://jitpack.io</url>
-    </repository>
-  </repositories>
-
-  <dependencies>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>3.8</version>
-      <scope>compile</scope>
-    </dependency>
-  </dependencies>
 </project>

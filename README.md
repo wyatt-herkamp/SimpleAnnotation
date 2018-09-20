@@ -12,7 +12,8 @@ Javadocs https://docs.kingtux.me/simpleannotation/
       <groupId>me.kingtux</groupId>
       <artifactId>SimpleAnnotation</artifactId>
       <!---Make sure you use Latest Version!-->
-      <version>1.0</version>
+      <version>1.1</version>
       <scope>compile</scope>
     </dependency>
 ```
+
