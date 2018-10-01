@@ -28,8 +28,11 @@ public class AnnotationFinder {
    * @return All the methods found that has that annotation
    */
   public static Method[] getMethodsWithAnnotation(Class clazz, Class annotation){
-    if (clazz == null || annotation == null) {
-      throw new IllegalArgumentException("Null Value passed");
+    if (clazz == null) {
+      throw new IllegalArgumentException("Null clazz passed");
+    }
+    if(annotation == null){
+    throw new IllegalArgumentException("Null annotation passed");
     }
     Method[] methods = clazz.getDeclaredMethods();
     List<Method> methodList = new ArrayList<>();
@@ -52,8 +55,11 @@ public class AnnotationFinder {
    */
   public static Field[] getFieldsWithAnnotation(Class clazz, Class annotation){
 
-    if (clazz == null || annotation == null) {
-      throw new IllegalArgumentException("Null Value passed");
+    if (clazz == null) {
+      throw new IllegalArgumentException("Null clazz passed");
+    }
+    if(annotation == null){
+    throw new IllegalArgumentException("Null annotation passed");
     }
     Field[] fields = clazz.getDeclaredFields();
     List<Field> fieldList = new ArrayList<>();
@@ -78,8 +84,11 @@ public class AnnotationFinder {
    */
   public static String[] getClassesWithAnnotation(File fileToCheck, Class annotation)
       throws IOException {
-    if (fileToCheck == null || annotation == null) {
-      throw new IllegalArgumentException("Null Value passed");
+    if (fileToCheck == null) {
+      throw new IllegalArgumentException("Null fileToCheck passed");
+    }
+    if(annotation == null){
+    throw new IllegalArgumentException("Null annotation passed");
     }
     URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{fileToCheck.toURI().toURL()},
         AnnotationFinder.class.getClassLoader());
@@ -112,8 +121,11 @@ public class AnnotationFinder {
    */
   public static Class[] getClassesWithAnnotationAndLoad(File fileToCheck, Class annotation)
       throws IOException {
-    if (fileToCheck == null || annotation == null) {
-      throw new IllegalArgumentException("Null Value passed");
+        if (fileToCheck == null) {
+      throw new IllegalArgumentException("Null fileToCheck passed");
+    }
+    if(annotation == null){
+    throw new IllegalArgumentException("Null annotation passed");
     }
     URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{fileToCheck.toURI().toURL()},
         AnnotationFinder.class.getClassLoader());
@@ -145,7 +157,7 @@ public class AnnotationFinder {
    */
   public  static String[] getAllClassesInJar(File file) throws IOException {
     if (file == null) {
-      throw new IllegalArgumentException("Null Value passed");
+      throw new IllegalArgumentException("Null file passed");
     }
     List<String> classNames = new ArrayList<>();
     ZipInputStream zip = new ZipInputStream(new FileInputStream(file));
