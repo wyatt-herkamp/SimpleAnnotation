@@ -2,6 +2,7 @@
 Have you ever needed to do something with Reflection and an Annotation? This is the library to make your life easier!
 
 Javadocs https://docs.kingtux.me/simpleannotation/
+# Maven
 ```
    <repository>
       <id>kingtux-repo</id>
@@ -15,5 +16,15 @@ Javadocs https://docs.kingtux.me/simpleannotation/
       <version>1.1</version>
       <scope>compile</scope>
     </dependency>
+```
+# Gradle
+```
+repositories {
+  maven { url 'http://repo.kingtux.me/repository/maven-public/' }
+}
+
+dependencies {
+   compile "me.kingtux:SimpleAnnotation:1.1"
+   }
 ```
 
