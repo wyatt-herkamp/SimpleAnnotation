@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 import java.util.Map;
 
 /**
+ * This class is here to edit Annotations at runtime
  * @author KingTux
  * @since 1.2
  */
