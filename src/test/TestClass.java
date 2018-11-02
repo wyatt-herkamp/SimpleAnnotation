@@ -1,11 +1,11 @@
 @TestAnnotation
 public class TestClass {
-@TestAnnotation
+@TestAnnotation(hey = "Hello")
 public void hello(){
 
 }
 
-  @TestAnnotation
+    @TestAnnotation(hey = "Hello")
   public void bob(){
 
   }

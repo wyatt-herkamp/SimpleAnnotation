@@ -6,7 +6,7 @@
 
   <groupId>me.kingtux</groupId>
   <artifactId>SimpleAnnotation</artifactId>
-  <version>1.1</version>
+  <version>1.2</version>
   <packaging>jar</packaging>
 
   <name>SimpleAnnotation</name>
