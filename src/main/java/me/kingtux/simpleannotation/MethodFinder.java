@@ -30,13 +30,13 @@ public class MethodFinder {
         List<Method> methods = new ArrayList<>();
         for (Method method : methodsToCheck) {
             for (Annotation annotation : method.getDeclaredAnnotations()) {
-                if (annotation.getClass() == annotationClass) {
+                if (annotation.annotationType() == annotationClass) {
                     methods.add(method);
                     break;
                 }
             }
         }
-        return methods.toArray(new Method[0]);
+        return methods.toArray(new Method[methods.size()]);
     }
 
     public static int getNumberOfMethodsWithAnnotation(Class classToCheck, Class<? extends Annotation> annotationClass) {
@@ -60,7 +60,7 @@ public class MethodFinder {
         }
         for (Method method : methodsToCheck) {
             for (Annotation annotation : method.getAnnotations()) {
-                if (annotation.getClass() == annotationClass) {
+                if (annotation.annotationType() == annotationClass) {
                     return method;
                 }
             }

@@ -31,7 +31,7 @@ public class FieldFinder {
         List<Field> Fields = new ArrayList<>();
         for (Field Field : FieldsToCheck) {
             for (Annotation annotation : Field.getDeclaredAnnotations()) {
-                if (annotation.getClass() == annotationClass) {
+                if (annotation.annotationType() == annotationClass) {
                     Fields.add(Field);
                     break;
                 }
@@ -61,7 +61,7 @@ public class FieldFinder {
         }
         for (Field Field : FieldsToCheck) {
             for (Annotation annotation : Field.getAnnotations()) {
-                if (annotation.getClass() == annotationClass) {
+                if (annotation.annotationType() == annotationClass) {
                     return Field;
                 }
             }

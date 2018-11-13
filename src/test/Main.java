@@ -7,20 +7,12 @@ import java.util.Arrays;
 
 import me.kingtux.simpleannotation.AnnotationFinder;
 import me.kingtux.simpleannotation.AnnotationWriter;
+import me.kingtux.simpleannotation.MethodFinder;
 
 public class Main {
 
     public static void main(String[] args) {
-      //  Method method = AnnotationFinder.getMethodsWithAnnotation(TestClass.class, TestAnnotation.class)[0];
-        AnnotationWriter.writeToAnnotation(TestClass.class, TestAnnotation.class,
-                new WritableAnnotation("The Ninja King", TestClass.class.getAnnotation(TestAnnotation.class)));
-        System.out.println(TestClass.class.getAnnotation(TestAnnotation.class).hey());
-
-         Method method = AnnotationFinder.getMethodsWithAnnotation(TestClass.class, TestAnnotation.class)[0];
-
-        AnnotationWriter.writeToAnnotation(method, TestAnnotation.class,
-                new WritableAnnotation("The Ninja King", TestClass.class.getAnnotation(TestAnnotation.class)));
-        System.out.println(method.getAnnotation(TestAnnotation.class).hey());
+        System.out.println(MethodFinder.getNumberOfMethodsWithAnnotation(TestClass.class, TestAnnotation.class,true));
     }
 
 }
