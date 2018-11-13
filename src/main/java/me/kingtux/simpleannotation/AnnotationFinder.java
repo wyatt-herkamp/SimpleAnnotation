@@ -45,7 +45,7 @@ public class AnnotationFinder {
      * @return All the fields found that has that annotation
      */
     public static Field[] getFieldsWithAnnotation(Class clazz, Class<? extends Annotation> annotation) {
-return FieldFinder.getAllFieldsWithAnnotation(clazz, annotation, true);
+        return FieldFinder.getAllFieldsWithAnnotation(clazz, annotation, true);
     }
 
     /**
@@ -58,53 +58,7 @@ return FieldFinder.getAllFieldsWithAnnotation(clazz, annotation, true);
      */
     public static String[] getClassesWithAnnotation(File fileToCheck, Class<? extends Annotation> annotation)
             throws IOException {
-        if (fileToCheck == null) {
-            throw new IllegalArgumentException("Null fileToCheck passed");
-        }
-        if (annotation == null) {
-            throw new IllegalArgumentException("Null annotation passed");
-        }
-        URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{fileToCheck.toURI().toURL()},
-                AnnotationFinder.class.getClassLoader());
-        List<String> classesFound = new ArrayList<>();
-        for (String clazzToCheck : getAllClassesInJar(fileToCheck)) {
-            Class clazz;
-            try {
-                clazz = urlClassLoader.loadClass(clazzToCheck);
-                for (Annotation annotation1 : clazz.getDeclaredAnnotations()) {
-                    if (annotation.equals(annotation1.annotationType())) {
-                        classesFound.add(clazzToCheck);
-                        break;
-                    }
-                }
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-        urlClassLoader.close();
-        return classesFound.toArray(new String[0]);
-    }
-
-    /**
-     * Gets all the classes in a jar file. Source: https://stackoverflow.com/a/15720973
-     *
-     * @param file the file to  check
-     * @return all the paths to classes in the jar
-     * @throws IOException This can be thrown in a few different areas.
-     */
-    public static String[] getAllClassesInJar(File file) throws IOException {
-        if (file == null) {
-            throw new IllegalArgumentException("Null file passed");
-        }
-        List<String> classNames = new ArrayList<>();
-        ZipInputStream zip = new ZipInputStream(new FileInputStream(file));
-        for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
-            if (!entry.isDirectory() && entry.getName().endsWith(".class")) {
-                String className = entry.getName().replace('/', '.');
-                classNames.add(className.substring(0, className.length() - ".class".length()));
-            }
-        }
-        return classNames.toArray(new String[0]);
+        return ClassFinder.getClassesInsideFileWithAnnotation(fileToCheck, annotation);
     }
 
 }

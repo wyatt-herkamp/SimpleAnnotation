@@ -29,9 +29,10 @@ public class MethodFinder {
         }
         List<Method> methods = new ArrayList<>();
         for (Method method : methodsToCheck) {
-            for (Annotation annotation : method.getAnnotations()) {
+            for (Annotation annotation : method.getDeclaredAnnotations()) {
                 if (annotation.getClass() == annotationClass) {
                     methods.add(method);
+                    break;
                 }
             }
         }

@@ -42,4 +42,17 @@ public class SimpleUtils {
         }
         return classNames.toArray(new String[0]);
     }
+
+    public static String[] removeStringsThatDontStartWith(String[] strings, String starter) {
+        if (starter == null) {
+            return strings;
+        }
+        List<String> lists = new ArrayList<>();
+        for (String s : strings) {
+            if (s.toLowerCase().startsWith(starter.toLowerCase())) {
+                lists.add(s);
+            }
+        }
+        return lists.toArray(new String[0]);
+    }
 }

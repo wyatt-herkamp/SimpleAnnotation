@@ -30,9 +30,10 @@ public class FieldFinder {
         }
         List<Field> Fields = new ArrayList<>();
         for (Field Field : FieldsToCheck) {
-            for (Annotation annotation : Field.getAnnotations()) {
+            for (Annotation annotation : Field.getDeclaredAnnotations()) {
                 if (annotation.getClass() == annotationClass) {
                     Fields.add(Field);
+                    break;
                 }
             }
         }
