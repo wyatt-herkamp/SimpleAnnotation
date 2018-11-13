@@ -13,7 +13,7 @@ Javadocs https://docs.kingtux.me/simpleannotation/
       <groupId>me.kingtux</groupId>
       <artifactId>SimpleAnnotation</artifactId>
       <!---Make sure you use Latest Version!-->
-      <version>1.2</version>
+      <version>1.3/version>
       <scope>compile</scope>
     </dependency>
 ```
@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-   compile "me.kingtux:SimpleAnnotation:1.2"
+   compile "me.kingtux:SimpleAnnotation:1.3"
 }
 ```
 ## How to use
