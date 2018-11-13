@@ -18,8 +18,11 @@ import java.util.zip.ZipInputStream;
  * The SimpleAnnotation Core at the moment 1.0 this is all we have
  *
  * @author KingTux
+ * @deprecated This class is being deprecated to move to a most clean and oranized way of doing this. Will be removed in 1.4. Deprecated in 1.3
  */
+@Deprecated
 public class AnnotationFinder {
+
 
     /**
      * This finds all the methods with an annotation clazz
@@ -30,23 +33,7 @@ public class AnnotationFinder {
      * @return All the methods found that has that annotation
      */
     public static Method[] getMethodsWithAnnotation(Class clazz, Class<? extends Annotation> annotation) {
-        if (clazz == null) {
-            throw new IllegalArgumentException("Null clazz passed");
-        }
-        if (annotation == null) {
-            throw new IllegalArgumentException("Null annotation passed");
-        }
-        Method[] methods = clazz.getDeclaredMethods();
-        List<Method> methodList = new ArrayList<>();
-        for (Method method : methods) {
-            for (Annotation annotation1 : method.getDeclaredAnnotations()) {
-                if (annotation.equals(annotation1.annotationType())) {
-                    methodList.add(method);
-                    break;
-                }
-            }
-        }
-        return methodList.toArray(new Method[0]);
+        return MethodFinder.getAllMethodsWithAnnotation(clazz, annotation, true);
     }
 
     /**
@@ -58,24 +45,7 @@ public class AnnotationFinder {
      * @return All the fields found that has that annotation
      */
     public static Field[] getFieldsWithAnnotation(Class clazz, Class<? extends Annotation> annotation) {
-
-        if (clazz == null) {
-            throw new IllegalArgumentException("Null clazz passed");
-        }
-        if (annotation == null) {
-            throw new IllegalArgumentException("Null annotation passed");
-        }
-        Field[] fields = clazz.getDeclaredFields();
-        List<Field> fieldList = new ArrayList<>();
-        for (Field field : fields) {
-            for (Annotation annotation1 : field.getDeclaredAnnotations()) {
-                if (annotation.equals(annotation1.annotationType())) {
-                    fieldList.add(field);
-                    break;
-                }
-            }
-        }
-        return fieldList.toArray(new Field[0]);
+return FieldFinder.getAllFieldsWithAnnotation(clazz, annotation, true);
     }
 
     /**
