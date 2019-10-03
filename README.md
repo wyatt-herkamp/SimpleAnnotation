@@ -6,12 +6,12 @@ Javadocs https://docs.kingtux.me/simpleannotation/
 ```xml
    <repository>
       <id>kingtux-repo</id>
-      <url>http://repo.kingtux.me/repository/maven-public/</url>
+      <url>https://repo.kingtux.me/repository/maven-public/</url>
     </repository>
     
     <dependency>
       <groupId>me.kingtux</groupId>
-      <artifactId>SimpleAnnotation</artifactId>
+      <artifactId>simpleannotation</artifactId>
       <!---Make sure you use Latest Version!-->
       <version>1.3.1</version>
       <scope>compile</scope>
@@ -20,11 +20,11 @@ Javadocs https://docs.kingtux.me/simpleannotation/
 ## Gradle
 ```groovy
 repositories {
-  maven { url 'http://repo.kingtux.me/repository/maven-public/' }
+  maven { url 'https://repo.kingtux.me/repository/maven-public/' }
 }
 
 dependencies {
-   compile "me.kingtux:SimpleAnnotation:1.3.1"
+   compile "me.kingtux:simpleannotation:1.3.1"
 }
 ```
 ## How to use
