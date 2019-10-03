@@ -2,8 +2,9 @@ package me.kingtux.simpleannotation;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.Optional;
+
 /**
  * A Method finder!
  * @since 1.3
@@ -19,7 +20,7 @@ public class MethodFinder {
      * @param annotationClass the annotation class
      * @return The methods found
      */
-    public static Method[] getAllMethodsWithAnnotation(Class classToCheck, Class<? extends Annotation> annotationClass) {
+    public static Method[] getAllMethodsWithAnnotation(Class<?> classToCheck, Class<? extends Annotation> annotationClass) {
         return getAllMethodsWithAnnotation(classToCheck, annotationClass, checkPrivateByDefault);
     }
 
@@ -30,23 +31,9 @@ public class MethodFinder {
      * @param checkPrivate do I check private
      * @return the methods found
      */
-    public static Method[] getAllMethodsWithAnnotation(Class classToCheck, Class<? extends Annotation> annotationClass, boolean checkPrivate) {
-        Method[] methodsToCheck;
-        if (checkPrivate) {
-            methodsToCheck = classToCheck.getDeclaredMethods();
-        } else {
-            methodsToCheck = classToCheck.getMethods();
-        }
-        List<Method> methods = new ArrayList<>();
-        for (Method method : methodsToCheck) {
-            for (Annotation annotation : method.getDeclaredAnnotations()) {
-                if (annotation.annotationType() == annotationClass) {
-                    methods.add(method);
-                    break;
-                }
-            }
-        }
-        return methods.toArray(new Method[0]);
+    public static Method[] getAllMethodsWithAnnotation(Class<?> classToCheck, Class<? extends Annotation> annotationClass, boolean checkPrivate) {
+        Method[] methodsToCheck = checkPrivate ? classToCheck.getDeclaredMethods() : classToCheck.getMethods();
+        return Arrays.stream(methodsToCheck).filter(method -> method.isAnnotationPresent(annotationClass)).toArray(Method[]::new);
     }
 
     /**
@@ -55,7 +42,7 @@ public class MethodFinder {
      * @param annotationClass the Annotation class
      * @return the number of methods found
      */
-    public static int getNumberOfMethodsWithAnnotation(Class classToCheck, Class<? extends Annotation> annotationClass) {
+    public static int getNumberOfMethodsWithAnnotation(Class<?> classToCheck, Class<? extends Annotation> annotationClass) {
         return getNumberOfMethodsWithAnnotation(classToCheck, annotationClass, checkPrivateByDefault);
     }
 
@@ -66,7 +53,7 @@ public class MethodFinder {
      * @param checkPrivate check private methods
      * @return the number of methods found
      */
-    public static int getNumberOfMethodsWithAnnotation(Class classToCheck, Class<? extends Annotation> annotationClass, boolean checkPrivate) {
+    public static int getNumberOfMethodsWithAnnotation(Class<?> classToCheck, Class<? extends Annotation> annotationClass, boolean checkPrivate) {
         return getAllMethodsWithAnnotation(classToCheck, annotationClass, checkPrivate).length;
     }
 
@@ -76,7 +63,7 @@ public class MethodFinder {
      * @param annotationClass The annotation class
      * @return the method found
      */
-    public static Method getFirstMethodWithAnnotation(Class classToCheck, Class<? extends Annotation> annotationClass) {
+    public static Optional<Method> getFirstMethodWithAnnotation(Class<?> classToCheck, Class<? extends Annotation> annotationClass) {
         return getFirstMethodWithAnnotation(classToCheck, annotationClass, checkPrivateByDefault);
     }
     /**
@@ -86,20 +73,8 @@ public class MethodFinder {
      * @param checkPrivate check private methods
      * @return the method found
      */
-    public static Method getFirstMethodWithAnnotation(Class classToCheck, Class<? extends Annotation> annotationClass, boolean checkPrivate) {
-        Method[] methodsToCheck;
-        if (checkPrivate) {
-            methodsToCheck = classToCheck.getDeclaredMethods();
-        } else {
-            methodsToCheck = classToCheck.getMethods();
-        }
-        for (Method method : methodsToCheck) {
-            for (Annotation annotation : method.getAnnotations()) {
-                if (annotation.annotationType() == annotationClass) {
-                    return method;
-                }
-            }
-        }
-        return null;
+    public static Optional<Method> getFirstMethodWithAnnotation(Class<?> classToCheck, Class<? extends Annotation> annotationClass, boolean checkPrivate) {
+        Method[] methodsToCheck = checkPrivate ? classToCheck.getDeclaredMethods() : classToCheck.getMethods();
+        return Arrays.stream(methodsToCheck).filter(method -> method.isAnnotationPresent(annotationClass)).findFirst();
     }
 }

@@ -1,7 +1,6 @@
 package me.kingtux.simpleannotation;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -20,10 +19,10 @@ public class AnnotationWriter {
      * @param annotationToAlter Annotation to edit
      * @param newAnnotation     The new annotation. Look at class WritableAnnotation to see how to do it
      */
-    public static void writeToAnnotation(Class classToLookAt, Class<? extends Annotation> annotationToAlter,
+    public static void writeToAnnotation(Class<?> classToLookAt, Class<? extends Annotation> annotationToAlter,
                                          Annotation newAnnotation) {
         try {
-            Method method = Class.class.getDeclaredMethod("annotationData", null);
+            Method method = Class.class.getDeclaredMethod("annotationData");
             method.setAccessible(true);
             Object annotationData = method.invoke(classToLookAt);
             Field annotations = annotationData.getClass().getDeclaredField("annotations");

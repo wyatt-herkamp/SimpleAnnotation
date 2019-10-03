@@ -11,6 +11,7 @@ import java.util.List;
  * @author KingTux
  */
 public class FieldFinder {
+
     public static boolean checkPrivateByDefault = false;
 
     /**
@@ -19,7 +20,7 @@ public class FieldFinder {
      * @param annotationClass the annotation class
      * @return The Fields found
      */
-    public static Field[] getAllFieldsWithAnnotation(Class classToCheck, Class<? extends Annotation> annotationClass) {
+    public static Field[] getAllFieldsWithAnnotation(Class<?> classToCheck, Class<? extends Annotation> annotationClass) {
         return getAllFieldsWithAnnotation(classToCheck, annotationClass, checkPrivateByDefault);
     }
 
@@ -30,7 +31,7 @@ public class FieldFinder {
      * @param checkPrivate do I check private
      * @return the Fields found
      */
-    public static Field[] getAllFieldsWithAnnotation(Class classToCheck, Class<? extends Annotation> annotationClass, boolean checkPrivate) {
+    public static Field[] getAllFieldsWithAnnotation(Class<?> classToCheck, Class<? extends Annotation> annotationClass, boolean checkPrivate) {
         Field[] fieldsToCheck;
         if (checkPrivate) {
             fieldsToCheck = classToCheck.getDeclaredFields();
@@ -55,7 +56,7 @@ public class FieldFinder {
      * @param annotationClass the Annotation class
      * @return the number of Fields found
      */
-    public static int getNumberOfFieldsWithAnnotation(Class classToCheck, Class<? extends Annotation> annotationClass) {
+    public static int getNumberOfFieldsWithAnnotation(Class<?> classToCheck, Class<? extends Annotation> annotationClass) {
         return getNumberOfFieldsWithAnnotation(classToCheck, annotationClass, checkPrivateByDefault);
     }
 
@@ -66,7 +67,7 @@ public class FieldFinder {
      * @param checkPrivate check private Fields
      * @return the number of Fields found
      */
-    public static int getNumberOfFieldsWithAnnotation(Class classToCheck, Class<? extends Annotation> annotationClass, boolean checkPrivate) {
+    public static int getNumberOfFieldsWithAnnotation(Class<?> classToCheck, Class<? extends Annotation> annotationClass, boolean checkPrivate) {
         return getAllFieldsWithAnnotation(classToCheck, annotationClass, checkPrivate).length;
     }
 
@@ -76,7 +77,7 @@ public class FieldFinder {
      * @param annotationClass The annotation class
      * @return the Field found
      */
-    public static Field getFirstFieldWithAnnotation(Class classToCheck, Class<? extends Annotation> annotationClass) {
+    public static Field getFirstFieldWithAnnotation(Class<?> classToCheck, Class<? extends Annotation> annotationClass) {
         return getFirstFieldWithAnnotation(classToCheck, annotationClass, checkPrivateByDefault);
     }
     /**
@@ -86,7 +87,7 @@ public class FieldFinder {
      * @param checkPrivate check private Fields
      * @return the Field found
      */
-    public static Field getFirstFieldWithAnnotation(Class classToCheck, Class<? extends Annotation> annotationClass, boolean checkPrivate) {
+    public static Field getFirstFieldWithAnnotation(Class<?> classToCheck, Class<? extends Annotation> annotationClass, boolean checkPrivate) {
         Field[] fieldsToCheck;
         if (checkPrivate) {
             fieldsToCheck = classToCheck.getDeclaredFields();
