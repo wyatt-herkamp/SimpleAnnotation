@@ -12,7 +12,6 @@ import java.util.Optional;
  */
 public class MethodFinder {
 
-    public static boolean checkPrivateByDefault = false;
 
     /**
      * All methods found with that annotation
@@ -21,7 +20,7 @@ public class MethodFinder {
      * @return The methods found
      */
     public static Method[] getAllMethodsWithAnnotation(Class<?> classToCheck, Class<? extends Annotation> annotationClass) {
-        return getAllMethodsWithAnnotation(classToCheck, annotationClass, checkPrivateByDefault);
+        return getAllMethodsWithAnnotation(classToCheck, annotationClass, false);
     }
 
     /**
@@ -43,7 +42,7 @@ public class MethodFinder {
      * @return the number of methods found
      */
     public static int getNumberOfMethodsWithAnnotation(Class<?> classToCheck, Class<? extends Annotation> annotationClass) {
-        return getNumberOfMethodsWithAnnotation(classToCheck, annotationClass, checkPrivateByDefault);
+        return getNumberOfMethodsWithAnnotation(classToCheck, annotationClass, false);
     }
 
     /**
@@ -64,7 +63,7 @@ public class MethodFinder {
      * @return the method found
      */
     public static Optional<Method> getFirstMethodWithAnnotation(Class<?> classToCheck, Class<? extends Annotation> annotationClass) {
-        return getFirstMethodWithAnnotation(classToCheck, annotationClass, checkPrivateByDefault);
+        return getFirstMethodWithAnnotation(classToCheck, annotationClass, false);
     }
     /**
      * The first method found with that Annotation

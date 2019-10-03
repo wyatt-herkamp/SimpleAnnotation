@@ -12,7 +12,6 @@ import java.util.List;
  */
 public class FieldFinder {
 
-    public static boolean checkPrivateByDefault = false;
 
     /**
      * All Fields found with that annotation
@@ -21,7 +20,7 @@ public class FieldFinder {
      * @return The Fields found
      */
     public static Field[] getAllFieldsWithAnnotation(Class<?> classToCheck, Class<? extends Annotation> annotationClass) {
-        return getAllFieldsWithAnnotation(classToCheck, annotationClass, checkPrivateByDefault);
+        return getAllFieldsWithAnnotation(classToCheck, annotationClass, false);
     }
 
     /**
@@ -57,7 +56,7 @@ public class FieldFinder {
      * @return the number of Fields found
      */
     public static int getNumberOfFieldsWithAnnotation(Class<?> classToCheck, Class<? extends Annotation> annotationClass) {
-        return getNumberOfFieldsWithAnnotation(classToCheck, annotationClass, checkPrivateByDefault);
+        return getNumberOfFieldsWithAnnotation(classToCheck, annotationClass, false);
     }
 
     /**
@@ -78,7 +77,7 @@ public class FieldFinder {
      * @return the Field found
      */
     public static Field getFirstFieldWithAnnotation(Class<?> classToCheck, Class<? extends Annotation> annotationClass) {
-        return getFirstFieldWithAnnotation(classToCheck, annotationClass, checkPrivateByDefault);
+        return getFirstFieldWithAnnotation(classToCheck, annotationClass, false);
     }
     /**
      * The first Field found with that Annotation
