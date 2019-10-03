@@ -133,5 +133,6 @@
             <version>5.2.0-M1</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 </project>
