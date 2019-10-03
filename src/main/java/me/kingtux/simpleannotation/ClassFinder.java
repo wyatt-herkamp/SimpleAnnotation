@@ -3,11 +3,12 @@ package me.kingtux.simpleannotation;
 import java.io.File;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.AbstractMap;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Class finder!
@@ -34,7 +35,7 @@ public class ClassFinder {
      * @param classToExtend the class you want the class to extend
      * @return The classes found with that Annotation
      */
-    public static String[] getClassesInsideFileWithAnnotation(File fileToCheck, Class<? extends Annotation> annotation, Class classToExtend) {
+    public static String[] getClassesInsideFileWithAnnotation(File fileToCheck, Class<? extends Annotation> annotation, Class<?> classToExtend) {
         return getClassesInsideFileWithAnnotation(fileToCheck, annotation, classToExtend, null);
     }
 
@@ -60,49 +61,29 @@ public class ClassFinder {
      * @param packageToStartWith the package's beggining
      * @return The classes found with that Annotation
      */
-    public static String[] getClassesInsideFileWithAnnotation(File fileToCheck, Class<? extends Annotation> annotation, Class classToExtend, final String packageToStartWith) {
+    public static String[] getClassesInsideFileWithAnnotation(File fileToCheck, Class<? extends Annotation> annotation, Class<?> classToExtend, final String packageToStartWith) {
+        try {
+            String[] classes = SimpleUtils.removeStringsThatDontStartWith(SimpleUtils.getAllClassesInJar(fileToCheck), packageToStartWith);
 
-        String[] classes;
-        try {
-            classes = SimpleUtils.removeStringsThatDontStartWith(SimpleUtils.getAllClassesInJar(fileToCheck), packageToStartWith);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        URLClassLoader urlClassLoader = null;
-        try {
-            urlClassLoader = new URLClassLoader(new URL[]{fileToCheck.toURI().toURL()},
-                    ClassFinder.class.getClassLoader());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            return null;
-        }
-        List<String> classesFound = new ArrayList<>();
-        for (String clazzToCheck : classes) {
-            Class clazz = null;
-            try {
-                clazz = urlClassLoader.loadClass(clazzToCheck);
-                if (clazz == null) {
-                    continue;
-                }
-                for (Annotation annotation1 : clazz.getDeclaredAnnotations()) {
-                    if (annotation.equals(annotation1.annotationType())) {
-                        if (clazz.getSuperclass() == classToExtend) {
-                            classesFound.add(clazzToCheck);
-                        }
-                        break;
+            try (URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{fileToCheck.toURI().toURL()}, ClassFinder.class.getClassLoader())) {
+                return Arrays.stream(classes).map(checking -> {
+                    try {
+                        return new AbstractMap.SimpleEntry<>(urlClassLoader.loadClass(checking), checking);
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                        return null;
                     }
-                }
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                }).filter(Objects::nonNull)
+                        .flatMap(entry -> Arrays.stream(entry.getKey().getDeclaredAnnotations())
+                                .filter(annotation1 -> annotation.equals(annotation1.annotationType()))
+                                .filter($ -> entry.getKey().getSuperclass().equals(classToExtend))
+                                .map($ -> entry.getValue()))
+                        .toArray(String[]::new);
             }
-        }
-        try {
-            urlClassLoader.close();
         } catch (IOException e) {
             e.printStackTrace();
+            return new String[0];
         }
-        return classesFound.toArray(new String[0]);
     }
 
     /**
@@ -112,7 +93,7 @@ public class ClassFinder {
      * @param annotation  The annotation to check for
      * @return The first found with that Annotation
      */
-    public static String getFirstClassInsideFileWithAnnotation(File fileToCheck, Class<? extends Annotation> annotation) {
+    public static Optional<String> getFirstClassInsideFileWithAnnotation(File fileToCheck, Class<? extends Annotation> annotation) {
         return getFirstClassInsideFileWithAnnotation(fileToCheck, annotation, Object.class);
     }
 
@@ -124,7 +105,7 @@ public class ClassFinder {
      * @param classToExtend the class you want the found class to extend
      * @return The first found with that Annotation
      */
-    public static String getFirstClassInsideFileWithAnnotation(File fileToCheck, Class<? extends Annotation> annotation, Class classToExtend) {
+    public static Optional<String> getFirstClassInsideFileWithAnnotation(File fileToCheck, Class<? extends Annotation> annotation, Class<?> classToExtend) {
         return getFirstClassInsideFileWithAnnotation(fileToCheck, annotation, classToExtend, null);
     }
 
@@ -136,9 +117,8 @@ public class ClassFinder {
      * @param packageToStartWith the package's beggining
      * @return The first found with that Annotation
      */
-    public static String getFirstClassInsideFileWithAnnotation(File fileToCheck, Class<? extends Annotation> annotation, String packageToStartWith) {
+    public static Optional<String> getFirstClassInsideFileWithAnnotation(File fileToCheck, Class<? extends Annotation> annotation, String packageToStartWith) {
         return getFirstClassInsideFileWithAnnotation(fileToCheck, annotation, Object.class, packageToStartWith);
-
     }
 
     /**
@@ -150,53 +130,9 @@ public class ClassFinder {
      * @param classToExtend      the class you want the found class to extend
      * @return The first found with that Annotation
      */
-    public static String getFirstClassInsideFileWithAnnotation(File fileToCheck, Class<? extends Annotation> annotation, Class classToExtend, final String packageToStartWith) {
-
-        String[] classes;
-        try {
-            classes = SimpleUtils.removeStringsThatDontStartWith(SimpleUtils.getAllClassesInJar(fileToCheck), packageToStartWith);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        URLClassLoader urlClassLoader = null;
-        try {
-            urlClassLoader = new URLClassLoader(new URL[]{fileToCheck.toURI().toURL()},
-                    ClassFinder.class.getClassLoader());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            return null;
-        }
-        for (String clazzToCheck : classes) {
-            Class clazz = null;
-            try {
-                clazz = urlClassLoader.loadClass(clazzToCheck);
-                if (clazz == null) {
-                    continue;
-                }
-                for (Annotation annotation1 : clazz.getDeclaredAnnotations()) {
-                    if (annotation.equals(annotation1.annotationType())) {
-                        if (clazz.getSuperclass() == classToExtend) {
-                            try {
-                                urlClassLoader.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            return clazzToCheck;
-                        }
-                        break;
-                    }
-                }
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-        try {
-            urlClassLoader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public static Optional<String> getFirstClassInsideFileWithAnnotation(File fileToCheck, Class<? extends Annotation> annotation, Class<?> classToExtend, final String packageToStartWith) {
+        String[] classes = getClassesInsideFileWithAnnotation(fileToCheck, annotation, classToExtend, packageToStartWith);
+        return Optional.ofNullable(classes.length > 0 ? classes[0] : null);
     }
 
     /**
@@ -218,7 +154,7 @@ public class ClassFinder {
      * @param classToExtend the class you want the class to extend
      * @return The number classes found with that Annotation
      */
-    public static int getNumberOfClassesWithAnnotation(File fileToCheck, Class<? extends Annotation> annotation, Class classToExtend) {
+    public static int getNumberOfClassesWithAnnotation(File fileToCheck, Class<? extends Annotation> annotation, Class<?> classToExtend) {
         return getNumberOfClassesWithAnnotation(fileToCheck, annotation, classToExtend, null);
     }
 
@@ -232,7 +168,6 @@ public class ClassFinder {
      */
     public static int getNumberOfClassesWithAnnotation(File fileToCheck, Class<? extends Annotation> annotation, String packageToStartWith) {
         return getNumberOfClassesWithAnnotation(fileToCheck, annotation, Object.class, packageToStartWith);
-
     }
 
     /**
@@ -244,7 +179,7 @@ public class ClassFinder {
      * @param packageToStartWith the package's beggining
      * @return The number classes found with that Annotation
      */
-    public static int getNumberOfClassesWithAnnotation(File fileToCheck, Class<? extends Annotation> annotation, Class classToExtend, final String packageToStartWith) {
+    public static int getNumberOfClassesWithAnnotation(File fileToCheck, Class<? extends Annotation> annotation, Class<?> classToExtend, final String packageToStartWith) {
         return getClassesInsideFileWithAnnotation(fileToCheck, annotation, classToExtend, packageToStartWith).length;
     }
 }

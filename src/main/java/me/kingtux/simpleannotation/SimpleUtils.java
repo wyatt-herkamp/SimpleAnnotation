@@ -4,9 +4,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * As of 1.3  these methods are here to help SimpleAnnotation and this class shouldn't be used
@@ -14,12 +17,6 @@ import java.util.zip.ZipInputStream;
  * @author KingTux
  */
 public class SimpleUtils {
-    public static <T> T notNull(final T object, final String message) {
-        if (object == null) {
-            throw new NullPointerException(message);
-        }
-        return object;
-    }
 
     /**
      * Gets all the classes in a jar file. Source: https://stackoverflow.com/a/15720973
@@ -29,15 +26,14 @@ public class SimpleUtils {
      * @throws IOException This can be thrown in a few different areas.
      */
     public static String[] getAllClassesInJar(File file) throws IOException {
-        if (file == null) {
-            notNull(file, "Null File Passed");
-        }
+        requireNonNull(file, "Null file passed");
         List<String> classNames = new ArrayList<>();
-        ZipInputStream zip = new ZipInputStream(new FileInputStream(file));
-        for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
-            if (!entry.isDirectory() && entry.getName().endsWith(".class")) {
-                String className = entry.getName().replace('/', '.');
-                classNames.add(className.substring(0, className.length() - ".class".length()));
+        try (ZipInputStream zip = new ZipInputStream(new FileInputStream(file))) {
+            for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
+                if (!entry.isDirectory() && entry.getName().endsWith(".class")) {
+                    String className = entry.getName().replace('/', '.');
+                    classNames.add(className.substring(0, className.length() - ".class".length()));
+                }
             }
         }
         return classNames.toArray(new String[0]);
@@ -47,12 +43,8 @@ public class SimpleUtils {
         if (starter == null) {
             return strings;
         }
-        List<String> lists = new ArrayList<>();
-        for (String s : strings) {
-            if (s.toLowerCase().startsWith(starter.toLowerCase())) {
-                lists.add(s);
-            }
-        }
-        return lists.toArray(new String[0]);
+
+        String starterLowerCase = starter.toLowerCase();
+        return Arrays.stream(strings).filter(string -> starter.toLowerCase().startsWith(starterLowerCase)).toArray(String[]::new);
     }
 }

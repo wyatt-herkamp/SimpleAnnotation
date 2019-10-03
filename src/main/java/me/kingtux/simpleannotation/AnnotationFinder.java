@@ -1,18 +1,9 @@
 package me.kingtux.simpleannotation;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 /**
  * The SimpleAnnotation Core at the moment 1.0 this is all we have
@@ -32,7 +23,7 @@ public class AnnotationFinder {
      * @param annotation the annotation to use to check MUST BE AN ANNOTATION
      * @return All the methods found that has that annotation
      */
-    public static Method[] getMethodsWithAnnotation(Class clazz, Class<? extends Annotation> annotation) {
+    public static Method[] getMethodsWithAnnotation(Class<?> clazz, Class<? extends Annotation> annotation) {
         return MethodFinder.getAllMethodsWithAnnotation(clazz, annotation, true);
     }
 
@@ -44,7 +35,7 @@ public class AnnotationFinder {
      * @param annotation the annotation to use to check MUST BE AN ANNOTATION
      * @return All the fields found that has that annotation
      */
-    public static Field[] getFieldsWithAnnotation(Class clazz, Class<? extends Annotation> annotation) {
+    public static Field[] getFieldsWithAnnotation(Class<?> clazz, Class<? extends Annotation> annotation) {
         return FieldFinder.getAllFieldsWithAnnotation(clazz, annotation, true);
     }
 
@@ -54,10 +45,8 @@ public class AnnotationFinder {
      * @param fileToCheck the file to check
      * @param annotation  the annotation to look for
      * @return The paths of the classes found
-     * @throws IOException Its an IOException
      */
-    public static String[] getClassesWithAnnotation(File fileToCheck, Class<? extends Annotation> annotation)
-            throws IOException {
+    public static String[] getClassesWithAnnotation(File fileToCheck, Class<? extends Annotation> annotation) {
         return ClassFinder.getClassesInsideFileWithAnnotation(fileToCheck, annotation);
     }
 
