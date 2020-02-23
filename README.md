@@ -6,7 +6,7 @@ Javadocs https://docs.kingtux.me/simpleannotation/
 ```xml
    <repository>
       <id>kingtux-repo</id>
-      <url>https://repo.kingtux.me/repository/maven-public/</url>
+      <url>https://repo.kingtux.me/storages/storage0/kingtux-repo<</url>
     </repository>
     
     <dependency>
@@ -20,7 +20,7 @@ Javadocs https://docs.kingtux.me/simpleannotation/
 ## Gradle
 ```groovy
 repositories {
-  maven { url 'https://repo.kingtux.me/repository/maven-public/' }
+  maven { url 'https://repo.kingtux.me/storages/storage0/kingtux-repo' }
 }
 
 dependencies {
