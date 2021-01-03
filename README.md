@@ -1,4 +1,4 @@
-# SimpleAnnotation
+# SimpleAnnotation [![Maven Version](https://mvnhelper.potatocorp.dev/kingtux/me.kingtux/simpleannotation/badge.png)](https://mvnhelper.potatocorp.dev/kingtux/me.kingtux/simpleannotation)
 Have you ever needed to do something with Reflection and an Annotation? This is the library to make your life easier!
 
 Javadocs https://docs.kingtux.me/simpleannotation/
